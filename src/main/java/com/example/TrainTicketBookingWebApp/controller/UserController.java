@@ -23,11 +23,16 @@ public class UserController {
 
 	@PostMapping("/userRegister")
 	public String registerUser(User user, Model m) {
+		Optional<User> optional = userService.getUserEmail(user.getEmail());
 
-		userService.saveUser(user);
-		m.addAttribute("succsess_Register", "New user Registered Successfully");
+		if (optional.isEmpty()) {
+			userService.saveUser(user);
+			m.addAttribute("succsess_Register", "New user Registered Successfully");
+			return "userLoginForm";
+		}
 
-		return "userLoginForm";
+		m.addAttribute("error_register", "User with given E-mail already exists.");
+		return "userRegisterForm";
 
 	}
 
@@ -44,28 +49,6 @@ public class UserController {
 		} else {
 
 			return "ticketForm";
-		}
-
-	}
-
-	@PostMapping("/processAdminLoginForm")
-	public String processAdminLoginForm(HttpServletRequest request, Model m) {
-		String aname = request.getParameter("admin_name");
-		String apassword = request.getParameter("admin_password");
-
-		System.out.println(aname + apassword);
-
-		if (aname != null ) {
-			System.out.println("this is running");
-			m.addAttribute("admin", aname);
-			return "adminPannel";
-
-		} else {
-
-			m.addAttribute("admin_error", "Invalid Admin Name and Password");
-
-			return "adminLoginForm";
-
 		}
 
 	}

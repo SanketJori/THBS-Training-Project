@@ -17,17 +17,27 @@
 	rel="stylesheet"
 	integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
 	crossorigin="anonymous">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"
 	integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg=="
 	crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <link rel="stylesheet"
 	href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
 <title>ticket</title>
 </head>
 <style>
+h6{
+font-weight:bolder;
+}
+
 #ticket_container {
 	max-width: 700px;
 	height: fit-content;
@@ -56,12 +66,12 @@
 <body>
 	<div class="container-fluid">
 
-		<div id="ticket" class="row mt-5 mb-5">
+		<div id="ticket" class="row mt-1 mb-5">
 			<div class="col-8 border-1">
 				<div id="ticket_container">
 					<h2 class="text-center">Ticket</h2>
 
-					<h5>Ticket Details :</h5>
+					<h5><b>Ticket Details :</b></h5>
 
 					<hr>
 					<table id="table1" class="">
@@ -93,6 +103,11 @@
 
 						</tr>
 						<tr>
+							<td><h6>Class :</h6></td>
+							<td><h6>${ticket_class}</h6></td>
+
+						</tr>
+						<tr>
 							<td><h6>Passengers :</h6></td>
 							<td><h6>${num_of_passengers}</h6></td>
 
@@ -100,7 +115,7 @@
 
 					</table>
 
-					<h5>Passenger Details :</h5>
+					<h5><b>Passenger Details :</b></h5>
 					<hr>
 					<table id="table2" class="">
 						<tr>
@@ -124,10 +139,17 @@
 						</c:forEach>
 
 
-
+					
 					</table>
-					<br>
+					
+					
 					<h6>Total Ticket Price : ${totalTicketPrice }</h6>
+					<div class="float-right  border w-50 mt-5">
+						<button type="button" class="btn btn-success  w-100 float-right"
+							id="download">
+							Download Ticket <i class="material-icons m-auto">download</i>
+						</button>
+					</div>
 
 				</div>
 
@@ -139,11 +161,7 @@
 					<div> -->
 			<div class="col-4 border-2">
 
-				<form id="payment-div" onsubmit="processPayment()" >
-
-
-
-
+				<%-- <form id="payment-div" onsubmit="processPayment()">
 
 					<h3 class="text-center">Payment Details</h3>
 
@@ -172,29 +190,141 @@
 
 					<div class=" mt-3 pb-0">
 						<button type="submit" class="btn btn-success text-center m-auto "
-							id="payment" >Pay ${totalTicketPrice }</button>
+							id="payment">Pay ${totalTicketPrice }</button>
 					</div>
 
 
-				</form>
-				<div class="float-right  border w-50 mt-5">
-					<button type="button" class="btn btn-success w-100 float-right"
-						id="download">
-						Download Ticket <i class="material-icons m-auto">download</i>
-					</button>
+				</form> --%>
+
+				<div class="">
+					<h2 style="display: flex; justify-content: center">Payment
+						Gateway</h2>
+
+					<ul class="nav nav-tabs">
+						<li class="active"><a data-toggle="tab" href="#upi">UPI</a></li>
+						<li><a data-toggle="tab" href="#debitcard">Debit Card</a></li>
+						<li><a data-toggle="tab" href="#creditcard">Credit Card</a></li>
+					</ul>
+
+					<div class="tab-content">
+						<div id="upi" class="tab-pane fade in active">
+
+							<div>
+								<img style="width: 300px; height: 200px"
+									src="https://www.businessleague.in/wp-content/uploads/2021/09/Google-Pay-PhonePe-Paytm.jpg"
+									alt="Girl in a jacket" width="500" height="600">
+								<!-- <img
+									style="width: 300px; height: 300px"
+									src="https://media.istockphoto.com/vectors/code-scan-label-scan-qr-code-icon-scan-me-text-vector-illustration-vector-id1324706577?k=20&m=1324706577&s=612x612&w=0&h=okYrdSTOH0q_g7-CISlefrWMlIv-ntZR_Bcy4ZkTwtE="
+									alt="Girl in a jacket" width="500" height="600"> -->
+
+								<form class="px-5">
+									<label for="upi">Enter UPI Id : </label> <input type="text"
+										id="upi" class="form-control" />
+									<div class=" mt-3 pb-0">
+										<button type="button"
+											class="btn btn-primary text-center m-auto" id="payment" onclick="processPayment()">
+											<b>Pay ${totalTicketPrice }</b> <i
+												class="material-icons mx-2 m-auto align-middle"> payment</i>
+										</button>
+									</div>
+								</form>
+
+
+							</div>
+
+						</div>
+
+						<div
+							style="box-shadow: 0px 5px 10px gray; padding: 20px 30px; width: auto; margin-top: 40px; margin-left: 20px; height: 400px"
+							id="debitcard" class="tab-pane fade">
+							<h3>Debit Card</h3>
+							<form action="#">
+								<div>
+									<label class="form-label" for="cname">Name</label> <input
+										class="form-control mb-2" type="text" id="cname"
+										name="cardname" placeholder="Name of card holder" required>
+									<label class="form-label" for="ccnum">Credit Card
+										Number</label> <input class="form-control mb-3" type="text" id="ccnum"
+										name="cardnumber" placeholder="Enter card number" required>
+
+									<div class="">
+										<div class="col-7">
+											<label class="form-label" for="expyear">Exp
+												month/year</label> <input class="form-control mb-2" type="text"
+												id="expyear" name="expyear" placeholder="mm/yy" required>
+										</div>
+										<div class="col-5 pb-3">
+											<label class="form-label" for="cvv">CVV</label> <input
+												class="form-control" type="text" id="cvv" name="cvv"
+												placeholder="" required>
+										</div>
+									</div>
+									<div class=" mt-3 pb-0">
+										<button type="button"
+											class="btn btn-primary text-center m-auto" id="payment" onclick="processPayment()">
+											<b>Pay ${totalTicketPrice }</b> <i
+												class="material-icons mx-2 m-auto align-middle"> payment</i>
+										</button>
+									</div>
+							</form>
+						</div>
+					</div>
+					<div
+						style="box-shadow: 0px 5px 10px gray; padding: 20px 30px; width: auto; margin-top: 40px; margin-left: 50px; height: 400px"
+						id="creditcard" class="tab-pane fade">
+
+						<h3>Credit Card</h3>
+						<form action="#">
+							<div>
+								<label class="form-label" for="cname">Name</label> <input
+									class="form-control mb-2" type="text" id="cname"
+									name="cardname" placeholder="Name of card holder" required>
+								<label class="form-label for="ccnum">Debit Card Number</label> <input
+									class="form-control mb-3" type="text" id="ccnum"
+									name="cardnumber" placeholder="Enter card number" required>
+
+								<div class="">
+									<div class="col-7">
+										<label class="form-label for="expyear">Exp month/year</label>
+										<input class="form-control mb-2" type="text" id="expyear"
+											name="expyear" placeholder="mm/yy" required>
+									</div>
+									<div class="col-5 pb-3">
+										<label class="form-label for="cvv">CVV</label> <input
+											class="form-control" type="text" id="cvv" name="cvv"
+											placeholder="" required>
+									</div>
+									<div class=" mt-3 pb-0">
+										<button type="button"
+											class="btn btn-primary text-center m-auto" id="payment" onclick="processPayment()">
+											<b>Pay ${totalTicketPrice }</b> <i
+												class="material-icons mx-2 m-auto align-middle"> payment</i>
+										</button>
+									</div>
+								</div>
+						</form>
+					</div>
 				</div>
-
-
-
 			</div>
 
 
 
+
+
+
+
+
 		</div>
-		<!-- row -->
+
+
+
+	</div>
+	<!-- row -->
 
 	</div>
 	<!-- container -->
+
 
 </body>
 
@@ -224,6 +354,7 @@
 			html2pdf().from(ticket).set(opt).save()
 			
 		})
+		
 	}
 </script>
 

@@ -3,33 +3,31 @@ package com.example.TrainTicketBookingWebApp.controller;
 import com.example.TrainTicketBookingWebApp.dao.*;
 import com.example.TrainTicketBookingWebApp.model.*;
 
-import java.io.IOException;
+
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
+
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+
 
 @Controller
 public class formController {
 
-	
-	@RequestMapping(path ="/processTicket", method = RequestMethod.POST)
+	@PostMapping(path = "/processTicket")
 	public String processTicket(HttpServletRequest request, Model m) {
-		
+
 		String src = request.getParameter("source_place");
 		String dest = request.getParameter("destination_place");
-		
+
 		int nop = 0;
 
 		TrainDAO td = new TrainDAO();
@@ -37,39 +35,44 @@ public class formController {
 		Train train = null;
 		try {
 
-			train = td.findTrain(src,dest);
+			train = td.findTrain(src, dest);
 			if (train == null) {
 				m.addAttribute("error_msg", "Train with given source and destination  not found.");
 				return "ticketForm";
 			}
 
 			String date = request.getParameter("travel_date");
+			System.out.println("Date : "+date);
 			try {
-				Date travel_date = new SimpleDateFormat("yyyy-mm-dd").parse(date);
-				
+				Date travel_date = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+				System.out.println("upper travel date: "+travel_date);
 
-				SimpleDateFormat format = new SimpleDateFormat("dd/mm/yyyy");
-				format.format(travel_date);
-			
+//				SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+//				format.format(travel_date);
+				
+				
+				
 				// Current date
 				Date current_date = new Date();
-				
+				System.out.println(train);
+				System.out.println(current_date + "<-current\n travel-> " + travel_date  + "\nompa->" + travel_date.compareTo(current_date));
 
 				// compare travel_date is greater than current date or not
-
-				if (travel_date.compareTo(current_date) <= 0) {
+				
+				System.out.println(travel_date.compareTo(current_date));
+				if (travel_date.compareTo(current_date) < 0) {
 					m.addAttribute("date_error", " Invalid DATE. Travel Date must be after current date.");
 					return "ticketForm";
 				}
 
 				// creating ticket object
-				ticket = new Ticket(travel_date, td.findTrain(src,dest));
+				ticket = new Ticket(travel_date, td.findTrain(src, dest));
 
 				nop = Integer.parseInt(request.getParameter("no_of_persons"));
 				for (int i = 1; i <= nop; i++) {
 //					System.out.println(request.getParameter("name" + i));
 					String passenger_name = request.getParameter("name" + i);
-					
+
 					long adharNumber = Long.parseLong(request.getParameter("adharNumber" + i));
 
 //					System.out.println(request.getParameter("age" + i));
@@ -104,8 +107,10 @@ public class formController {
 		// nop number of person
 
 		m.addAttribute("passenger", ticket.getPassengers());
-		
+
 		double totalTicketPrice = ticket.calculateTotalprice();
+
+		String ticketClass = request.getParameter("classes");
 
 		m.addAttribute("pnr", pnr);
 		m.addAttribute("train_no", train_no);
@@ -113,6 +118,7 @@ public class formController {
 		m.addAttribute("src", src);
 		m.addAttribute("dest", dest);
 		m.addAttribute("travel_date", travel_date);
+		m.addAttribute("ticket_class", ticketClass);
 		m.addAttribute("num_of_passengers", nop);
 		m.addAttribute("totalTicketPrice", totalTicketPrice);
 		return "ticket";

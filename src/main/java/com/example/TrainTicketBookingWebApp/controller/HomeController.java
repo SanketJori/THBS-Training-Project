@@ -35,11 +35,6 @@ public class HomeController {
 		return "adminLoginForm";
 	}
 	
-	@RequestMapping("/adminPannel")
-	public String adminPannel() {
-		return "adminPannel";
-	}
-	
 	@RequestMapping("/ticketForm")
 	public String ticketForm(){
 		

@@ -16,13 +16,16 @@ public class UserService {
 	UserRepository userRepository;
 	
 	public void saveUser(User user) {
-
+		
 		userRepository.save(user);
 
 	}
 
 	public Optional<User> getUser(String email, String password) {
 		return userRepository.findByEmailAndPassword(email, password);
+	}
+	public Optional<User> getUserEmail(String email) {
+		return userRepository.findByEmail(email);
 	}
 
 }

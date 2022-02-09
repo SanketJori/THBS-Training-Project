@@ -21,6 +21,12 @@
 <title>Train Ticket Booking App</title>
 </head>
 <style>
+#welcome-div{
+height:fit-content;
+padding : 20px 20px;
+
+
+}
 img{
 width:700px;
 height:600px;
@@ -36,7 +42,7 @@ border:1px solid #129;
 
 </style>
 <body>
-	<div class="container">
+	<div class="container-fluid">
 		<!-- <div>
 			<nav class="navbar navbar-expand-lg navbar-light bg-light">
 				<div class="container-fluid">
@@ -58,12 +64,12 @@ border:1px solid #129;
 			<div class="col-6 ">
 			<img alt="" src="https://thebrandhopper.com/wp-content/uploads/2021/01/Indian-Railway-Catering-and-Tourism-Corporation.png">
 			</div>
-			<div class="col-6 mt-5">
+			<div id="welcome-div" class="col-5 mt-5 shadow m-auto">
 				<h1 style="color:#128" class="text-center">Welcome to IRCTC</h1>
 				<h5 style="color:#569" class="text-center">Book your train ticket here</h5>
 				<div id="btn-div" class="text-center row mt-5">
 				
-					<div class="offset-1 col-6">
+					<div class=" col-6">
 					
 
 						<a  href="userLogin"

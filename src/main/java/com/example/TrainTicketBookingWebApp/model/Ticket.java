@@ -45,7 +45,7 @@ public class Ticket {
 	}
 
 	public String getTravel_date() {
-		return new SimpleDateFormat("dd/mm/yyyy").format(travel_date);
+		return new SimpleDateFormat("dd/MM/yyyy").format(travel_date);
 	}
 
 	public void setTravel_date(Date travel_date) {

@@ -1,6 +1,19 @@
 package com.example.TrainTicketBookingWebApp.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class Train {
+	
+	public Train() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	@Id
+	@Column(unique=true)
 	private int train_no;
 	private String train_name;
 	private String source_place;
